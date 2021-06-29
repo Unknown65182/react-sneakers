@@ -8,11 +8,7 @@ export interface ISneaker {
   photoUrl: string;
 }
 
-export interface ISneakers {
-  items: Array<ISneaker>;
-}
-
-export const sneakersState = atom<ISneakers | null>({
+export const sneakersState = atom<Array<ISneaker> | null>({
   key: `Sneakers/${uuidv4()}`,
   default: null,
 });
@@ -40,4 +36,26 @@ export const cartOpenedState = atom<boolean>({
 export const cartTotalPriceState = atom<number>({
   key: `Cart/${uuidv4()}`,
   default: 0,
+});
+
+// -------------
+
+export interface IFavoriteItem extends ISneaker {
+  count: number;
+}
+
+export type FavoriteItemsStateType = Array<IFavoriteItem> | null;
+
+export const favoriteItemsState = atom<FavoriteItemsStateType>({
+  key: `Favorite/${uuidv4()}`,
+  default: null,
+});
+
+// -------------
+
+export type FilteredItemsStateType = Array<ISneaker> | null;
+
+export const filteredItemsState = atom<FilteredItemsStateType>({
+  key: `Filtered/${uuidv4()}`,
+  default: null,
 });
