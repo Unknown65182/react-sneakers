@@ -1,0 +1,67 @@
+module.exports = {
+  mode: "jit",
+  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    colors: {
+      transparent: "transparent",
+      black: "black",
+      white: "white",
+      red: {
+        light: "#FEF0F0",
+        DEFAULT: "#FF8585",
+      },
+      background: "#F4EFE9",
+      accent: {
+        light: "#E7F6FF",
+        DEFAULT: "#A5D364",
+        dark: "#8BB43C",
+      },
+      gray: {
+        lesslight: "#EAEAEA",
+        light: "#BDBDBD",
+        DEFAULT: "#9B9B9B",
+        dark: "#5C5C5C",
+      },
+    },
+    borderRadius: {
+      none: "0",
+      sm: "0.125rem",
+      DEFAULT: "0.25rem",
+      md: "0.375rem",
+      lg: "0.5rem",
+      xl: "0.75rem",
+      "2xl": "1rem",
+      "3xl": "1.5rem",
+      "4xl": "2rem",
+      "5xl": "2.5rem",
+      full: "9999px",
+    },
+    scale: {
+      0: "0",
+      25: ".25",
+      50: ".5",
+      75: ".75",
+      90: ".9",
+      95: ".95",
+      100: "1",
+      105: "1.05",
+      110: "1.1",
+      125: "1.25",
+      150: "1.5",
+      200: "2",
+    },
+    minWidth: {
+      0: "0",
+      "1/4": "25%",
+      "1/2": "50%",
+      "3/4": "75%",
+      full: "100%",
+      8: "2rem",
+    },
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
+};
