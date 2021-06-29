@@ -3932,6 +3932,7 @@ __metadata:
     prettier: ^2.3.1
     react: 17.0.2
     react-dom: 17.0.2
+    react-number-format: ^4.6.3
     recoil: ^0.3.1
     reseter.css: ^1.1.3
     tailwindcss: ^2.2.4
@@ -4885,6 +4886,18 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 11bcf1267a314a522615f626f3ce3727a3a24cdbf61c4d452add3550a7875326669631326cfb1ba3e92b6f72244c32ffecf93ad21c0cad8455d3e169d0e3f060
+  languageName: node
+  linkType: hard
+
+"react-number-format@npm:^4.6.3":
+  version: 4.6.3
+  resolution: "react-number-format@npm:4.6.3"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^0.14 || ^15.0.0-0 || ^16.0.0-0 || ^17.0.0-0
+    react-dom: ^0.14 || ^15.0.0-0 || ^16.0.0-0 || ^17.0.0-0
+  checksum: 0b17a08afcf0c4239a71489753b94a2b0dc1036f635a70737f15056605fae0fe4a24bc55ac102d1ad07155868d2d31c458e7e5dc20608222112206ab69230f72
   languageName: node
   linkType: hard
 

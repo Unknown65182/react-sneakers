@@ -59,6 +59,15 @@ module.exports = {
       full: "100%",
       8: "2rem",
     },
+    screens: {
+      esm: "480px",
+      sm: "670px",
+      md: "820px",
+      lg: "1024px",
+      xl: "1440px",
+      "2xl": "1600px",
+      "3xl": "1920px",
+    },
   },
   variants: {
     extend: {},

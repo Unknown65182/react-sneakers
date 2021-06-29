@@ -1,13 +1,16 @@
 import Image from "next/image";
 import React from "react";
-import { useRecoilState } from "recoil";
+import { default as NumberFormat } from "react-number-format";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import logo from "/public/assets/logo.png";
 
-import { cartState, CartStateType } from "../recoil/atoms";
+import { cartOpenedState, cartTotalPriceState } from "../recoil/atoms";
 
 const Header: React.FC = () => {
-  const [cart, setCart] = useRecoilState<CartStateType>(cartState);
+  const setCartOpenedState = useSetRecoilState(cartOpenedState);
+  const cartTotalPrice = useRecoilValue(cartTotalPriceState);
+
   return (
     <header className="flex items-center justify-between p-11 min-h-10 border-b border-solid border-gray-lesslight">
       <Image src={logo} width={40} height={40} />
@@ -20,10 +23,19 @@ const Header: React.FC = () => {
       <ul className="flex space-x-7">
         <li
           className="flex items-center"
-          onClick={() => setCart({ ...cart, isOpened: !cart.isOpened })}
+          onClick={() => setCartOpenedState((opened) => !opened)}
         >
           <Image src="/assets/cart.svg" width={18} height={18} />
-          <span className="ml-2 text-gray-dark">1205 руб.</span>
+          {cartTotalPrice !== 0 && (
+            <span className="ml-2 text-gray-dark">
+              <NumberFormat
+                value={cartTotalPrice.toFixed(2)}
+                displayType="text"
+                thousandSeparator=" "
+                suffix=" руб."
+              />
+            </span>
+          )}
         </li>
         <li className="flex items-center">
           <Image src="/assets/favorite.svg" width={18} height={18} />

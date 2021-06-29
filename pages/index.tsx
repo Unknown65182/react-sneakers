@@ -4,8 +4,6 @@ import { useRecoilState } from "recoil";
 
 import Card from "../components/Card";
 import Cart from "../components/Cart";
-// import Card from "../components/Card";
-// import Cart from "../components/Cart";
 import Header from "../components/Header";
 import { sneakersState } from "../recoil/atoms";
 // import SideModal from "../components/SideModal";
@@ -31,9 +29,9 @@ const Home: React.FC = () => {
       <Header />
       <main className="p-14 space-y-10">
         <section className="">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center flex-col md:flex-row">
             <h1 className="text-4xl font-bold">Все кроссовки</h1>
-            <div className="flex items-center border border-solid border-gray-lesslight rounded-xl px-4">
+            <div className="flex items-center border border-solid border-gray-lesslight rounded-xl px-4  mt-5 md:m-0">
               <Image src="/assets/search.svg" width={15} height={15} />
               <input
                 className="ml-3 h-11 outline-none border-none text-sm"
@@ -42,7 +40,7 @@ const Home: React.FC = () => {
               />
             </div>
           </div>
-          <div className="mt-10 grid grid-flow-row grid-cols-4 grid-rows-4 gap-8">
+          <div className="mt-10 grid grid-rows-2 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {sneakers &&
               sneakers.items.map((item, index) => (
                 <Card
