@@ -40,7 +40,7 @@ const Card: React.FC<IProps> = ({ id, name, price, photoUrl }) => {
     }
   };
   return (
-    <div className="flex flex-col justify-center justify-self-center w-56 p-8 rounded-5xl border border-solid border-gray-lesslight shadow-xl transition-all hover:shadow-2xl translate-card">
+    <div className="flex flex-col justify-center justify-self-center space-y-2 w-56 p-8 rounded-5xl border border-solid border-gray-lesslight shadow-xl transition-all hover:shadow-2xl translate-card">
       <Image src={photoUrl} width={133} height={112} />
       <p className="text-sm">{name}</p>
       <div className="flex justify-between items-center">
