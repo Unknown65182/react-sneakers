@@ -6,12 +6,18 @@ import React from "react";
 import { default as NumberFormat } from "react-number-format";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { cartOpenedState, cartTotalPriceState } from "../recoil/atoms";
+import {
+  cartItemsCountSelector,
+  cartState,
+  cartTotalPriceSelector,
+} from "../recoil/Cart/atoms";
 
 const Header: React.FC = () => {
-  const setCartOpenedState = useSetRecoilState(cartOpenedState);
-  const cartTotalPrice = useRecoilValue(cartTotalPriceState);
-  const cartOpened = useRecoilValue(cartOpenedState);
+  const cart = useRecoilValue(cartState);
+  const cartTotalPrice = useRecoilValue(cartTotalPriceSelector);
+  const cartItemsCount = useRecoilValue(cartItemsCountSelector);
+  const setCartOpenedState = useSetRecoilState(cartState);
+
   const router = useRouter();
 
   return (
@@ -31,17 +37,21 @@ const Header: React.FC = () => {
         <li
           className={clsx(
             "flex items-center justify-center min-w-8 px-2 rounded-md transition-colors hover:bg-accent-light",
-            cartOpened && "bg-accent-light"
+            cart.opened && "bg-accent-light"
           )}
         >
           <Link href="#" as={router.pathname}>
             <a
               className="flex items-center justify-center"
-              onClick={() => setCartOpenedState((opened) => !opened)}
+              onClick={() =>
+                setCartOpenedState({
+                  ...cart,
+                  opened: !cart.opened,
+                })
+              }
             >
-              <Image src="/assets/cart.svg" width={18} height={18} />
               {cartTotalPrice !== 0 && (
-                <span className="ml-2 text-gray-dark">
+                <span className="mr-2 text-gray-dark">
                   <NumberFormat
                     value={cartTotalPrice.toFixed(2)}
                     displayType="text"
@@ -50,6 +60,14 @@ const Header: React.FC = () => {
                   />
                 </span>
               )}
+              <div className="relative flex items-center ">
+                <Image src="/assets/cart.svg" width={18} height={18} />
+                {cartItemsCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-accent-dark text-white text-xs text-center rounded-lg w-4 h-4">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </div>
             </a>
           </Link>
         </li>

@@ -1,38 +1,35 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import NumberFormat from "react-number-format";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
-  cartItemsState,
-  cartOpenedState,
-  cartTotalPriceState,
-} from "../recoil/atoms";
+  // cartItemsCountSelector,
+  cartState,
+  cartTotalPriceSelector,
+} from "../recoil/Cart/atoms";
 
 const Cart = () => {
-  const cartItems = useRecoilValue(cartItemsState);
-  const cartOpened = useRecoilValue(cartOpenedState);
-  const removeCartItemState = useSetRecoilState(cartItemsState);
-  const setCartOpenedState = useSetRecoilState(cartOpenedState);
-  const [cartTotalPrice, setCartTotalPrice] =
-    useRecoilState(cartTotalPriceState);
+  const cart = useRecoilValue(cartState);
+  const cartTotalPrice = useRecoilValue(cartTotalPriceSelector);
+  // const cartItemsCount = useRecoilValue(cartItemsCountSelector);
+  const removeCartItemState = useSetRecoilState(cartState);
+  const setCartOpenedState = useSetRecoilState(cartState);
 
   useEffect(() => {
-    setCartTotalPrice(
-      cartItems ? cartItems?.reduce((acc, { price }) => acc + price, 0) : 0
-    );
-  }, [cartItems]);
-
-  useEffect(() => {
-    if (cartOpened) {
+    if (cart.opened) {
       document.body.style.overflowY = "hidden";
     } else {
       document.body.style.overflowY = "auto";
     }
-  }, [cartOpened]);
+  }, [cart.opened]);
 
   const closeCart = (event: React.MouseEvent) => {
-    setCartOpenedState((_opened) => false);
+    try {
+      setCartOpenedState(() => ({ ...cart, opened: false }));
+    } catch (error) {
+      console.log(error.message);
+    }
     event.preventDefault();
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
@@ -40,16 +37,19 @@ const Cart = () => {
 
   const removeCartItem = (id: string) => {
     try {
-      removeCartItemState((items) =>
-        items ? items?.filter((item) => item._id !== id) : null
-      );
+      removeCartItemState({
+        ...cart,
+        items: cart.items
+          ? cart.items?.filter((item) => item._id !== id)
+          : null,
+      });
     } catch (error) {
       console.log(error.message);
     }
   };
   return (
     <>
-      {cartOpened ? (
+      {cart.opened ? (
         <section className="z-10 cart-open">
           <div
             className="absolute top-0 left-0 m-0 w-full h-screen bg-black opacity-50"
@@ -57,10 +57,10 @@ const Cart = () => {
           ></div>
           <div className="fixed top-0 right-0 m-0 w-96 h-screen bg-white p-8 flex flex-col">
             <h1 className="text-2xl font-bold mb-8">Корзина</h1>
-            {cartItems && cartItems?.length > 0 ? (
+            {cart.items && cart.items?.length > 0 ? (
               <>
                 <ul className="overflow-auto space-y-4 mb-5 hide-scroll">
-                  {cartItems.map((item) => (
+                  {cart.items.map((item) => (
                     <li
                       key={item._id}
                       className="p-5 border border-gray-lesslight rounded-3xl flex items-center justify-between space-x-4"
@@ -68,14 +68,17 @@ const Cart = () => {
                       <Image src={item.photoUrl} width={70} height={70} />
                       <div className="w-36">
                         <p className="text-sm">{item.name}</p>
-                        <b className="text-sm">
-                          <NumberFormat
-                            value={item.price}
-                            displayType="text"
-                            thousandSeparator=" "
-                            suffix=" руб."
-                          />
-                        </b>
+                        <div>
+                          <b className="text-sm mr-3">
+                            <NumberFormat
+                              value={item.price}
+                              displayType="text"
+                              thousandSeparator=" "
+                              suffix=" руб."
+                            />
+                          </b>
+                          <i>x{item.count}</i>
+                        </div>
                       </div>
                       <button
                         className="min-w-8 h-8 rounded-lg"

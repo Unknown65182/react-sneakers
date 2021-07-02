@@ -3,12 +3,8 @@ import React from "react";
 import NumberFormat from "react-number-format";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import {
-  cartItemsState,
-  favoriteItemsState,
-  ICartItem,
-  IFavoriteItem,
-} from "../recoil/atoms";
+import { favoriteItemsState, IFavoriteItem } from "../recoil/atoms";
+import { cartState, ICartItem } from "../recoil/Cart/atoms";
 
 interface IProps {
   id: string;
@@ -18,9 +14,10 @@ interface IProps {
 }
 
 const Card: React.FC<IProps> = ({ id, name, price, photoUrl }) => {
-  const cartItems = useRecoilValue(cartItemsState);
-  const addCartItemState = useSetRecoilState(cartItemsState);
-  const removeCartItemState = useSetRecoilState(cartItemsState);
+  const cart = useRecoilValue(cartState);
+  const addCartItemState = useSetRecoilState(cartState);
+  const removeCartItemState = useSetRecoilState(cartState);
+
   const favoriteItems = useRecoilValue(favoriteItemsState);
   const addFavoriteItemState = useSetRecoilState(favoriteItemsState);
   const removeFavoriteItemState = useSetRecoilState(favoriteItemsState);
@@ -38,6 +35,7 @@ const Card: React.FC<IProps> = ({ id, name, price, photoUrl }) => {
       console.log(error.message);
     }
   };
+
   const removeFavoriteItem = (id: string) => {
     try {
       removeFavoriteItemState((items) =>
@@ -50,22 +48,27 @@ const Card: React.FC<IProps> = ({ id, name, price, photoUrl }) => {
 
   const addCartItem = (item: ICartItem) => {
     try {
-      addCartItemState((items) => {
-        return items?.find((i) => i._id === item._id)
-          ? items
-          : items
-          ? [...items, item]
-          : [item];
+      addCartItemState({
+        ...cart,
+        items: cart.items?.find((i) => i._id === item._id)
+          ? cart.items
+          : cart.items
+          ? [...cart.items, item]
+          : [item],
       });
     } catch (error) {
       console.log(error.message);
     }
   };
+
   const removeCartItem = (id: string) => {
     try {
-      removeCartItemState((items) =>
-        items ? items?.filter((item) => item._id !== id) : null
-      );
+      removeCartItemState({
+        ...cart,
+        items: cart.items
+          ? cart.items?.filter((item) => item._id !== id)
+          : null,
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -109,7 +112,7 @@ const Card: React.FC<IProps> = ({ id, name, price, photoUrl }) => {
             <Image src="/assets/favorite.svg" width={15} height={15} />
           </button>
         )}
-        {cartItems?.find((el) => el._id === id) ? (
+        {cart.items?.find((el) => el._id === id) ? (
           <button
             className="w-8 h-8 rounded-lg flex items-center justify-center bg-accent-dark"
             onClick={() => removeCartItem(id)}
@@ -125,7 +128,7 @@ const Card: React.FC<IProps> = ({ id, name, price, photoUrl }) => {
                 price,
                 photoUrl,
                 _id: id,
-                count: 1,
+                count: 2,
               })
             }
           >
