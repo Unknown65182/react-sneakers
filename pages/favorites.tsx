@@ -1,12 +1,16 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import { useRecoilValue } from "recoil";
 
-import Card from "../components/Card";
+// @ts-ignore
+import { Card } from "@/components";
+
 import { favoriteItemsState } from "../recoil/atoms";
 
 const Favorites = () => {
   const favoriteItems = useRecoilValue(favoriteItemsState);
+  const router = useRouter();
   return (
     <main className="h-full p-14 space-y-10">
       {favoriteItems && favoriteItems.length > 0 ? (
@@ -30,7 +34,10 @@ const Favorites = () => {
           <Image src="/assets/sadEmoji.png" width={70} height={70} />
           <h3 className="text-2xl font-bold mt-6 mb-3">Закладок нет :(</h3>
           <p className="text-gray mb-16">Вы ничего не добавляли в закладки</p>
-          <button className="bg-accent rounded-3xl flex items-center justify-between w-full py-3 px-8 pl-14 mt-6">
+          <button
+            className="bg-accent rounded-3xl flex items-center justify-between w-full py-3 px-8 pl-14 mt-6"
+            onClick={() => router.push("/")}
+          >
             <p className="text-white">Вернуться назад</p>
             <Image src="/assets/arrow.svg" width={14} height={12} />
           </button>

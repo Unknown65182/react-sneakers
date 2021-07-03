@@ -4,7 +4,7 @@ import NumberFormat from "react-number-format";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
-  // cartItemsCountSelector,
+  cartItemsCountSelector,
   cartState,
   cartTotalPriceSelector,
 } from "../recoil/Cart/atoms";
@@ -12,7 +12,7 @@ import {
 const Cart = () => {
   const cart = useRecoilValue(cartState);
   const cartTotalPrice = useRecoilValue(cartTotalPriceSelector);
-  // const cartItemsCount = useRecoilValue(cartItemsCountSelector);
+  const cartItemsCount = useRecoilValue(cartItemsCountSelector);
   const removeCartItemState = useSetRecoilState(cartState);
   const setCartOpenedState = useSetRecoilState(cartState);
 
@@ -56,9 +56,18 @@ const Cart = () => {
             onClick={(event) => closeCart(event)}
           ></div>
           <div className="fixed top-0 right-0 m-0 w-96 h-screen bg-white p-8 flex flex-col">
-            <h1 className="text-2xl font-bold mb-8">Корзина</h1>
+            <h1 className="text-2xl font-bold">Корзина</h1>
+
             {cart.items && cart.items?.length > 0 ? (
               <>
+                <p className="mb-8 text-sm text-gray">
+                  {cartItemsCount}
+                  {cartItemsCount === 1
+                    ? " предмет"
+                    : cartItemsCount < 5
+                    ? " предмета"
+                    : " предметов"}
+                </p>
                 <ul className="overflow-auto space-y-4 mb-5 hide-scroll">
                   {cart.items.map((item) => (
                     <li
@@ -129,7 +138,10 @@ const Cart = () => {
                 <p className="text-gray mb-10">
                   Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.
                 </p>
-                <button className="bg-accent rounded-3xl flex items-center justify-between w-full py-3 px-8 pl-24 mt-6">
+                <button
+                  className="bg-accent rounded-3xl flex items-center justify-between w-full py-3 px-8 pl-24 mt-6"
+                  onClick={closeCart}
+                >
                   <p className="text-white">Вернуться назад</p>
                   <Image src="/assets/arrow.svg" width={14} height={12} />
                 </button>
