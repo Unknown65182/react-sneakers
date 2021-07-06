@@ -1,19 +1,19 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
+// import Image from "next/image";
+// import { useRouter } from "next/router";
 import React from "react";
-import { useRecoilValue } from "recoil";
+// import { useRecoilValue } from "recoil";
 
-// @ts-ignore
-import { Card } from "@/components";
+// // @ts-ignore
+// import { Card } from "@/components";
 
-import { favoriteItemsState } from "../recoil/atoms";
+// import { favoriteItemsState } from "../recoil/atoms";
 
 const Favorites = () => {
-  const favoriteItems = useRecoilValue(favoriteItemsState);
-  const router = useRouter();
+  // const favoriteItems = useRecoilValue(favoriteItemsState);
+  // const router = useRouter();
   return (
     <main className="h-full p-14 space-y-10">
-      {favoriteItems && favoriteItems.length > 0 ? (
+      {/* {favoriteItems && favoriteItems.length > 0 ? (
         <>
           <h1 className="text-4xl font-bold">Избранное</h1>
           <div className="mt-10 grid grid-rows-2 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -21,8 +21,8 @@ const Favorites = () => {
               favoriteItems.map((item, index) => (
                 <Card
                   key={item._id}
-                  id={item._id}
-                  name={item.name}
+                  _id={item._id}
+                  title={item.title}
                   price={item.price}
                   photoUrl={item.photoUrl}
                 />
@@ -42,7 +42,7 @@ const Favorites = () => {
             <Image src="/assets/arrow.svg" width={14} height={12} />
           </button>
         </div>
-      )}
+      )} */}
     </main>
   );
 };
