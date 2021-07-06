@@ -2,12 +2,24 @@ import "reseter.css";
 import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
 
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import fetch from "isomorphic-fetch";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { RecoilRoot } from "recoil";
 
 import Layout from "@/layouts";
+
+const client = new ApolloClient({
+  link: new HttpLink({ uri: "/api/graphql", fetch: fetch as any }),
+  cache: new InMemoryCache(),
+});
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -43,11 +55,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           rel="stylesheet"
         />
       </Head>
-      <RecoilRoot>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </RecoilRoot>
+      <ApolloProvider client={client}>
+        <RecoilRoot>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </RecoilRoot>
+      </ApolloProvider>
     </>
   );
 };

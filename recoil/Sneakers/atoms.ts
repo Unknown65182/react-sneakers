@@ -1,18 +1,11 @@
 import { atom } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
-export interface ISneaker {
-  id: string;
-  data: {
-    name: string;
-    price: number;
-    photoUrl: string;
-  };
-}
+import { Sneakers } from "@/graphql/types";
 
-export type SneakersStateType = Array<ISneaker> | null;
+export type SneakersStateType = Array<Sneakers> | [];
 
 export const sneakersState = atom<SneakersStateType>({
   key: `Sneakers/${uuidv4()}`,
-  default: null,
+  default: [],
 });

@@ -1,35 +1,43 @@
+import { gql } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 import { Card, Search } from "@/components";
-import db from "@/libs/db";
-import { userState } from "@/recoil/User/atoms";
+import { useAllSneakersQuery } from "@/graphql/types";
 
-import { ISneaker, sneakersState } from "../recoil/Sneakers/atoms";
+import { sneakersState } from "../recoil/Sneakers/atoms";
+
+gql`
+  query AllSneakers {
+    allSneakers {
+      _id
+      title
+      price
+      photoUrl
+    }
+  }
+`;
 
 const Home: React.FC = () => {
   const [sneakers, setSneakers] = useRecoilState(sneakersState);
-  const [user] = useRecoilState(userState);
-
-  console.log(user);
+  const { loading, data } = useAllSneakersQuery();
 
   useEffect(() => {
-    const fetchSneakers = async () => {
-      try {
-        db.collection("sneakers").onSnapshot((snapshot) => {
-          setSneakers(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              data: doc.data(),
-            })) as Array<ISneaker>
-          );
-        });
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchSneakers();
-  }, []);
+    if (data) {
+      const fetchSneakers = async () => {
+        try {
+          setSneakers(data?.allSneakers);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      fetchSneakers();
+    }
+  }, [loading]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <main className="p-14 space-y-10">
@@ -42,11 +50,11 @@ const Home: React.FC = () => {
           {sneakers &&
             sneakers.map((item) => (
               <Card
-                key={item.id}
-                id={item.id}
-                name={item.data.name}
-                price={item.data.price}
-                photoUrl={item.data.photoUrl}
+                key={item._id}
+                _id={item._id}
+                title={item.title}
+                price={item.price}
+                photoUrl={item.photoUrl}
               />
             ))}
         </div>
