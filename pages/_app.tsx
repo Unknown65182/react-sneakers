@@ -5,7 +5,6 @@ import "../styles/globals.css";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Provider } from "next-auth/client";
 import { RecoilRoot } from "recoil";
 
 import Layout from "@/layouts";
@@ -13,7 +12,7 @@ import Layout from "@/layouts";
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
   return (
-    <Provider session={pageProps.session}>
+    <>
       <Head>
         <meta charSet="utf-8" />
         <meta
@@ -49,7 +48,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <Component {...pageProps} />
         </Layout>
       </RecoilRoot>
-    </Provider>
+    </>
   );
 };
 

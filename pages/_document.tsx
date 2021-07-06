@@ -5,6 +5,7 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
+import React from "react";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -18,7 +19,7 @@ class MyDocument extends Document {
         <Head />
         <body>
           <Main />
-          <div id="modal"></div>
+          <div id="__modal"></div>
           <NextScript />
         </body>
       </Html>

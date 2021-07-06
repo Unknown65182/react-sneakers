@@ -3,8 +3,9 @@ import React from "react";
 import NumberFormat from "react-number-format";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { favoriteItemsState, IFavoriteItem } from "../recoil/atoms";
-import { cartState, ICartItem } from "../recoil/Cart/atoms";
+// import db from "@/libs/db";
+import { favoriteItemsState, IFavoriteItem } from "@/recoil/atoms";
+import { cartState, ICartItem } from "@/recoil/Cart/atoms";
 
 interface IProps {
   id: string;

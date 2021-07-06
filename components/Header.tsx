@@ -10,7 +10,7 @@ import {
   cartItemsCountSelector,
   cartState,
   cartTotalPriceSelector,
-} from "../recoil/Cart/atoms";
+} from "@/recoil/Cart/atoms";
 
 const Header: React.FC = () => {
   const cart = useRecoilValue(cartState);
@@ -84,7 +84,11 @@ const Header: React.FC = () => {
           </Link>
         </li>
         <li className="flex items-center justify-center min-w-8 px-2 rounded-md transition-colors hover:bg-accent-light">
-          <Image src="/assets/profile.svg" width={18} height={18} />
+          <Link href="/profile">
+            <a className="flex items-center justify-center w-full h-full">
+              <Image src="/assets/profile.svg" width={18} height={18} />{" "}
+            </a>
+          </Link>
         </li>
       </ul>
     </header>
