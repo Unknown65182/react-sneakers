@@ -2,16 +2,28 @@ import { atom } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
 interface IUser {
-  uid: string;
-  name: string;
-  email: string;
-  photoUrl: string;
-  favorites: Array<string>;
+  data: {
+    uid: string;
+    name: string;
+    email: string;
+    photoUrl: string;
+    favorites: Array<string>;
+  } | null;
+  login: () => {};
+  logout: () => {};
+  authReady: boolean;
 }
 
-export type UserStateType = IUser | null;
+const DefaultUserType = {
+  data: null,
+  authReady: false,
+  login: () => {},
+  logout: () => {},
+};
+
+export type UserStateType = IUser | typeof DefaultUserType;
 
 export const userState = atom<UserStateType>({
   key: `User/${uuidv4()}`,
-  default: null,
+  default: DefaultUserType,
 });

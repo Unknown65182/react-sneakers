@@ -1,0 +1,11 @@
+type Sneakers {
+  _id: ID!
+  title: String!
+  price: Int!
+  photoUrl: String
+}
+
+type Query {
+  allSneakers: [Sneakers!]!
+  Sneakers(_id: ID!): Sneakers
+}
